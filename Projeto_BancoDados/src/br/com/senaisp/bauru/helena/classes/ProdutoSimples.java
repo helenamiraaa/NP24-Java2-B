@@ -20,7 +20,7 @@ public class ProdutoSimples {
 		saldo = 0;
 		custo = 0;
 		//Instanciando o DriverManager
-		conn = DriverManager.getConnection("jdbc:sqlite:c:\\Javalibs\\dados\\NP24_JAVA2_B.DB");
+		conn = ConexaoBD.getInstancia().getConn();
 	}
 	//Gettes e setters
 	public int getId() {
@@ -63,7 +63,7 @@ public class ProdutoSimples {
 	public void gravar () throws SQLException {
 		PreparedStatement stmt = conn.
 				prepareStatement("update produto set descricao=?,"
-						+ "saldo=?, custo=?, where id = ?");
+						+ "saldo=?, custo=? where id = ?");
 		//preenchendo os parametros
 		stmt.setString(1, getDescricao());
 		stmt.setInt(2, getSaldo());
@@ -75,7 +75,7 @@ public class ProdutoSimples {
 	}
 		public void apagar () throws SQLException {
 			PreparedStatement stmt = conn.
-					prepareStatement("delete from produtowhere id = ?");
+					prepareStatement("delete from produto where id = ?");
 			//preenchendo os parametros
 			
 			stmt.setInt(1, getId());
@@ -121,7 +121,7 @@ public class ProdutoSimples {
 		if (cod>0) {
 			//Preparando a instrução de select
 			PreparedStatement stmt = ret.conn.
-					prepareStatement("select, id, descricao, saldo, custo"
+					prepareStatement("select id, descricao, saldo, custo"
 							+ " from produto where id = ?");
 			//Colando o parametro da query
 			stmt.setInt(1, cod);
